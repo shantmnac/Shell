@@ -13,7 +13,7 @@ void memmoryAllarm(char *callerFunction){
     fprintf(stderr, "%s: memmory allocation issue\n", callerFunction);
 }
 
-int initializationOfglobalVariables(int argc, const char *argv[]){
+int initializationOfGlobalVariables(int argc, const char *argv[]){
     int i;
     struct passwd *pw = getpwuid(getuid());
     

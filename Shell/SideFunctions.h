@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 void memmoryAllarm(char*);
-int initializationOfglobalVariables(int, const char *argv[]);
+int initializationOfGlobalVariables(int, const char *argv[]);
 char *itoa (int);
 char *reverse(char*);
 

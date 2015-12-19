@@ -7,7 +7,42 @@
 #include "SideFunctions.h"
 #include "structures.h"
 
+extern int jobsCounter;
+
+struct programm initializationOfNewProgramm(void){
+    struct programm tmpProgramm;
+    
+    tmpProgramm.arguments = NULL;
+    tmpProgramm.inputFile = tmpProgramm.outputFile = NULL;
+    tmpProgramm.outputType = 1;
+    tmpProgramm.name = NULL;
+    
+    return tmpProgramm;
+}
+
+struct job initializationOfNewJob(void){
+    struct job tmpJob;
+    
+    tmpJob.background = 0;
+    tmpJob.numberOfPrograms = 0;
+    tmpJob.programs = (struct programm*)malloc(sizeof(struct programm));
+    tmpJob.programs[0] = initializationOfNewProgramm();
+
+    return tmpJob;
+}
+
 extern struct environmentVariables globalVariables;
+
+char *strCopy(char *inputStr, int inputStrSize){
+    char *tmpStr = (char*)malloc(inputStrSize + 1);
+    int i;
+    
+    for (i = 0; i < inputStrSize; i++) {
+        tmpStr[i] = inputStr[i];
+    }
+    
+    return tmpStr;
+}
 
 int variableSubstitution(char **currentWord, int currentWordSize){
     char tempChar, *variableName = NULL, *replacementString = NULL;
@@ -22,12 +57,17 @@ int variableSubstitution(char **currentWord, int currentWordSize){
                 }
                 return -1;
             }
-            variableName = (char*)realloc(variableName, variableNameSize + 1);
+            if (!variableNameSize) {
+                variableName = (char*)malloc(1);
+            }
+            else{
+                variableName = (char*)realloc(variableName, variableNameSize + 1);
+            }
             if (variableName == NULL) {
                 memmoryAllarm("readCurrentWord");
             }
             variableName[variableNameSize] = tolower(tempChar);
-            variableName++;
+            variableNameSize++;
         }
         
         variableName = (char*)realloc(variableName, variableNameSize + 1);
@@ -35,7 +75,7 @@ int variableSubstitution(char **currentWord, int currentWordSize){
             memmoryAllarm("readCurrentWord");
         }
         variableName[variableNameSize] = '\0';
-        variableName++;
+
 
         if (!strcmp(variableName, "user")) {
             replacementString = globalVariables.username;
@@ -151,7 +191,7 @@ int readCurrentWord(char **currentWord){
     switch (quotes) {
         case 0:{
             while ((tempChar = getchar()) != ' ') {
-                if ((tempChar == '>') || (tempChar == '<') || (tempChar == ';') || (tempChar == '|') || (tempChar == '\n')) {
+                if ((tempChar == '>') || (tempChar == '<') || (tempChar == ';') || (tempChar == '|') || (tempChar == '\n') || (tempChar == '&')) {
                     ungetc(tempChar, stdin);
                     break;
                 }
@@ -165,6 +205,7 @@ int readCurrentWord(char **currentWord){
                             }
                             return -1;
                         }
+                        continue;
                     }
                     
                     if (tempChar == '\\') {
@@ -211,7 +252,6 @@ int readCurrentWord(char **currentWord){
                                     memmoryAllarm("readCurrentWord");
                                 }
                                 (*currentWord)[currentWordSize] = '\0';
-                                currentWordSize++;
                                 
                                 return currentWordSize;
                                 
@@ -413,7 +453,6 @@ int readCurrentWord(char **currentWord){
             memmoryAllarm("readCurrentWord");
         }
         (*currentWord)[currentWordSize] = '\0';
-        currentWordSize++;
     }
     
     return currentWordSize;
@@ -421,10 +460,17 @@ int readCurrentWord(char **currentWord){
 
 struct job *readCommand(void){
     char currentChar = '!', (*currentWord) = NULL;
-    int jobsCounter = 0, programsCounter = 0, argumentsCounter = 0, currentWordSize = 0;
+    int programsCounter = 0, argumentsCounter = 0, currentWordSize = 0;
     struct job *currentJobs = NULL;
     
     while (1) {
+        if (!jobsCounter) {
+            currentJobs = (struct job*)malloc(sizeof(struct job));
+        }
+        else{
+            currentJobs = (struct job*)realloc(currentJobs, (jobsCounter + 1) * sizeof(struct job));
+        }
+        currentJobs[jobsCounter] = initializationOfNewJob();
         while (1) {
             while ((currentChar = getchar()) == ' '){}
             ungetc(currentChar, stdin);
@@ -434,7 +480,7 @@ struct job *readCommand(void){
                 if ((currentChar == ';') || (currentChar == '|')){
                     continue;
                 }
-                if ((currentChar == '>') || (currentChar == '<')) {
+                if ((currentChar == '>') || (currentChar == '<') || (currentChar == '&')) {
                     while (1) {
                         currentChar = getchar();
                         if ((currentChar == ';') || (currentChar == '|')){
@@ -442,6 +488,17 @@ struct job *readCommand(void){
                         }
                         else{
                             if (currentChar == '\n') {
+                                if (!jobsCounter) {
+                                    free(currentJobs[jobsCounter].programs);
+                                    free(currentJobs);
+                                }
+                                else{
+                                    if (!programsCounter) {
+                                        free(currentJobs[jobsCounter].programs);
+                                        jobsCounter--;
+                                        currentJobs = (struct job*)realloc(currentJobs, (jobsCounter + 1) * sizeof(struct job));
+                                    }
+                                }
                                 return currentJobs;
                             }
                         }
@@ -453,22 +510,13 @@ struct job *readCommand(void){
                 }
             }
             else{
-                if (!programsCounter) {
-                    if (!jobsCounter) {
-                        currentJobs = (struct job*)malloc(sizeof(struct job));
-                    }
-                    else{
-                        currentJobs = (struct job*)realloc(currentJobs, (jobsCounter + 1) * sizeof(struct job));
-                    }
-                    currentJobs[jobsCounter].numberOfPrograms = 0;
-                    currentJobs[jobsCounter].programs = (struct programm*)malloc(sizeof(struct programm));
-                }
-                else{
+                if (programsCounter) {
                     currentJobs[jobsCounter].programs = (struct programm*)realloc(currentJobs[jobsCounter].programs, sizeof(struct programm) * programsCounter + 1);
+                    currentJobs[jobsCounter].programs[programsCounter] = initializationOfNewProgramm();
                 }
                 currentJobs[jobsCounter].numberOfPrograms++;
                 currentJobs[jobsCounter].programs[programsCounter].name = (char*)malloc(currentWordSize + 1);
-                currentJobs[jobsCounter].programs[programsCounter].name = currentWord;
+                currentJobs[jobsCounter].programs[programsCounter].name = strCopy(currentWord, currentWordSize);
                 free(currentWord);
                 currentWord = NULL;
                 currentWordSize = 0;
@@ -486,19 +534,49 @@ struct job *readCommand(void){
                     if (currentChar == '|') {
                         break;
                     }
+                    if (currentChar == '&') {
+                        currentChar = getchar();
+                        if ((currentChar == ';') || ((currentChar == '\n'))){
+                            currentJobs[jobsCounter].background = 1;
+                            ungetc(currentChar, stdin);
+                        }
+                        else{
+                            ungetc(currentChar, stdin);
+                        }
+                        continue;
+                    }
                     if (currentChar == '>') {
-                        if ((currentWordSize = readCurrentWord(&currentWord))){
-                            currentJobs[jobsCounter].programs[programsCounter].outputFile = (char*)malloc(currentWordSize + 1);
-                            currentJobs[jobsCounter].programs[programsCounter].outputFile = currentWord;
-                            free(currentWord);
-                            currentWord = NULL;
-                            currentWordSize = 0;
+                        if ((currentChar = getchar()) == '>') {
+                            while ((currentChar = getchar()) == ' '){}
+                            ungetc(currentChar, stdin);
+                            if ((currentWordSize = readCurrentWord(&currentWord))){
+                                currentJobs[jobsCounter].programs[programsCounter].outputFile = (char*)malloc(currentWordSize + 1);
+                                currentJobs[jobsCounter].programs[programsCounter].outputFile = strCopy(currentWord, currentWordSize);
+                                currentJobs[jobsCounter].programs[programsCounter].outputType = 2;
+                                free(currentWord);
+                                currentWord = NULL;
+                                currentWordSize = 0;
+                            }
+                        }
+                        else{
+                            ungetc(currentChar, stdin);
+                            while ((currentChar = getchar()) == ' '){}
+                            ungetc(currentChar, stdin);
+                            if ((currentWordSize = readCurrentWord(&currentWord))){
+                                currentJobs[jobsCounter].programs[programsCounter].outputFile = (char*)malloc(currentWordSize + 1);
+                                currentJobs[jobsCounter].programs[programsCounter].outputFile = strCopy(currentWord, currentWordSize);
+                                free(currentWord);
+                                currentWord = NULL;
+                                currentWordSize = 0;
+                            }
                         }
                     }
                     if (currentChar == '<') {
+                        while ((currentChar = getchar()) == ' '){}
+                        ungetc(currentChar, stdin);
                         if ((currentWordSize = readCurrentWord(&currentWord))){
                             currentJobs[jobsCounter].programs[programsCounter].inputFile = (char*)malloc(currentWordSize + 1);
-                            currentJobs[jobsCounter].programs[programsCounter].inputFile = currentWord;
+                            currentJobs[jobsCounter].programs[programsCounter].inputFile = strCopy(currentWord, currentWordSize);
                             free(currentWord);
                             currentWord = NULL;
                             currentWordSize = 0;
@@ -517,7 +595,7 @@ struct job *readCommand(void){
                         currentJobs[jobsCounter].programs[programsCounter].arguments = (char**)realloc(currentJobs[jobsCounter].programs[programsCounter].arguments, sizeof(char*) * argumentsCounter + 1);
                     }
                     currentJobs[jobsCounter].programs[programsCounter].arguments[argumentsCounter] = (char*)malloc(currentWordSize + 1);
-                    currentJobs[jobsCounter].programs[programsCounter].arguments[argumentsCounter] = currentWord;
+                    currentJobs[jobsCounter].programs[programsCounter].arguments[argumentsCounter] = strCopy(currentWord, currentWordSize);
                     currentJobs[jobsCounter].programs[programsCounter].numberOfArguments++;
                     free(currentWord);
                     currentWord = NULL;
