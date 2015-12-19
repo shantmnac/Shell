@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		84D905061C24A48600ABA2A6 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 84D905051C24A48600ABA2A6 /* main.c */; };
+		84D905101C24BB2B00ABA2A6 /* CommandReading.c in Sources */ = {isa = PBXBuildFile; fileRef = 84D9050E1C24BB2B00ABA2A6 /* CommandReading.c */; };
+		84D905131C24C98F00ABA2A6 /* SideFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 84D905111C24C98F00ABA2A6 /* SideFunctions.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,11 @@
 /* Begin PBXFileReference section */
 		84D905021C24A48600ABA2A6 /* Shell */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Shell; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D905051C24A48600ABA2A6 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		84D9050C1C24B13800ABA2A6 /* structures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = structures.h; sourceTree = "<group>"; };
+		84D9050E1C24BB2B00ABA2A6 /* CommandReading.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CommandReading.c; sourceTree = "<group>"; };
+		84D9050F1C24BB2B00ABA2A6 /* CommandReading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandReading.h; sourceTree = "<group>"; };
+		84D905111C24C98F00ABA2A6 /* SideFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SideFunctions.c; sourceTree = "<group>"; };
+		84D905121C24C98F00ABA2A6 /* SideFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +65,11 @@
 			isa = PBXGroup;
 			children = (
 				84D905051C24A48600ABA2A6 /* main.c */,
+				84D9050C1C24B13800ABA2A6 /* structures.h */,
+				84D9050E1C24BB2B00ABA2A6 /* CommandReading.c */,
+				84D9050F1C24BB2B00ABA2A6 /* CommandReading.h */,
+				84D905111C24C98F00ABA2A6 /* SideFunctions.c */,
+				84D905121C24C98F00ABA2A6 /* SideFunctions.h */,
 			);
 			path = Shell;
 			sourceTree = "<group>";
@@ -118,7 +130,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D905101C24BB2B00ABA2A6 /* CommandReading.c in Sources */,
 				84D905061C24A48600ABA2A6 /* main.c in Sources */,
+				84D905131C24C98F00ABA2A6 /* SideFunctions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

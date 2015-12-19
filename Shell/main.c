@@ -1,15 +1,19 @@
-//
-//  main.c
-//  Shell
-//
-//  Created by Shant on 18.12.15.
-//  Copyright © 2015 Shant INC. All rights reserved.
-//
-
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "structures.h"
+#include "SideFunctions.h"
+#include "CommandReading.h"
+
+struct environmentVariables globalVariables;
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
+    struct job *tmp;
+    initializationOfglobalVariables(argc, argv);
+   
+    while (1) {
+        printf("Shant$ ");
+        tmp = readCommand();
+    }
     return 0;
 }
