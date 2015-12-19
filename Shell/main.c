@@ -8,7 +8,7 @@
 struct environmentVariables globalVariables;
 int jobsCounter = 0;
 
-int main(int argc, const char * argv[]) {
+int main(int argc, char * argv[]) {
     struct job *tmp;
     initializationOfGlobalVariables(argc, argv);
    

@@ -13,7 +13,7 @@ void memmoryAllarm(char *callerFunction){
     fprintf(stderr, "%s: memmory allocation issue\n", callerFunction);
 }
 
-int initializationOfGlobalVariables(int argc, const char *argv[]){
+int initializationOfGlobalVariables(int argc, char *argv[]){
     int i;
     struct passwd *pw = getpwuid(getuid());
     
@@ -28,8 +28,8 @@ int initializationOfGlobalVariables(int argc, const char *argv[]){
     globalVariables.UID = (int)getuid();
     globalVariables.argc = argc;
     globalVariables.statusOfLastProcess = 0;
-    globalVariables.shellDirectory = getwd(globalVariables.shellDirectory);
-    globalVariables.currentDirectory = getwd(globalVariables.currentDirectory);
+    globalVariables.shellDirectory = getcwd(globalVariables.shellDirectory, 0);
+    globalVariables.currentDirectory = getcwd(globalVariables.currentDirectory, 0);
     globalVariables.username = getlogin();
     return 0;
 }
