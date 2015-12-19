@@ -511,7 +511,7 @@ struct job *readCommand(void){
             }
             else{
                 if (programsCounter) {
-                    currentJobs[jobsCounter].programs = (struct programm*)realloc(currentJobs[jobsCounter].programs, sizeof(struct programm) * programsCounter + 1);
+                    currentJobs[jobsCounter].programs = (struct programm*)realloc(currentJobs[jobsCounter].programs, sizeof(struct programm) * (programsCounter + 1));
                     currentJobs[jobsCounter].programs[programsCounter] = initializationOfNewProgramm();
                 }
                 currentJobs[jobsCounter].numberOfPrograms++;
@@ -592,7 +592,7 @@ struct job *readCommand(void){
                         currentJobs[jobsCounter].programs[programsCounter].arguments = (char**)malloc(sizeof(char*));
                     }
                     else{
-                        currentJobs[jobsCounter].programs[programsCounter].arguments = (char**)realloc(currentJobs[jobsCounter].programs[programsCounter].arguments, sizeof(char*) * argumentsCounter + 1);
+                        currentJobs[jobsCounter].programs[programsCounter].arguments = (char**)realloc(currentJobs[jobsCounter].programs[programsCounter].arguments, sizeof(char*) * (argumentsCounter + 1));
                     }
                     currentJobs[jobsCounter].programs[programsCounter].arguments[argumentsCounter] = (char*)malloc(currentWordSize + 1);
                     currentJobs[jobsCounter].programs[programsCounter].arguments[argumentsCounter] = strCopy(currentWord, currentWordSize);
