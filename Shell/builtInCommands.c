@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include "builtInCommands.h"
 
-//void cd(void){
-  //  chdir();
-//}
+void cd(void){
+    chdir();
+}

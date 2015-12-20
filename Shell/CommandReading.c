@@ -7,6 +7,7 @@
 #include "SideFunctions.h"
 #include "structures.h"
 
+extern struct environmentVariables globalVariables;
 extern int jobsCounter;
 
 struct programm initializationOfNewProgramm(void){
@@ -30,8 +31,6 @@ struct job initializationOfNewJob(void){
 
     return tmpJob;
 }
-
-extern struct environmentVariables globalVariables;
 
 char *strCopy(char *inputStr, int inputStrSize){
     char *tmpStr = (char*)malloc(inputStrSize + 1);
@@ -458,7 +457,7 @@ int readCurrentWord(char **currentWord){
     return currentWordSize;
 }
 
-struct job *readCommand(void){
+struct job *readCommand(void){///////////////////// написать обработку -1 от readCurrentWord
     char currentChar = '!', (*currentWord) = NULL;
     int programsCounter = 0, argumentsCounter = 0, currentWordSize = 0;
     struct job *currentJobs = NULL;
@@ -476,6 +475,11 @@ struct job *readCommand(void){
             ungetc(currentChar, stdin);
             
             if(!(currentWordSize = readCurrentWord(&currentWord))){
+                
+                if (currentWordSize == -1) {
+                    
+                }
+                
                 currentChar = getchar();
                 if ((currentChar == ';') || (currentChar == '|')){
                     continue;

@@ -8,14 +8,13 @@
 struct environmentVariables globalVariables;
 int jobsCounter = 0;
 
-int main(int argc, char * argv[]) {
+int main(int argc, char *argv[]) {
     struct job *tmp;
     initializationOfGlobalVariables(argc, argv);
    
     while (1) {
-        printf("%s$ ", globalVariables.username);
+        printf("\x1b[1;31m%s$\x1b[1;31m ", globalVariables.username);
         tmp = readCommand();
-        //printf("%s %s %s", tmp[0].programs[0].name, tmp[0].programs[0].arguments[0], tmp[0].programs[0].arguments[1]);
     }
     return 0;
 }

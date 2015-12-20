@@ -11,6 +11,8 @@
 		84D905101C24BB2B00ABA2A6 /* CommandReading.c in Sources */ = {isa = PBXBuildFile; fileRef = 84D9050E1C24BB2B00ABA2A6 /* CommandReading.c */; };
 		84D905131C24C98F00ABA2A6 /* SideFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = 84D905111C24C98F00ABA2A6 /* SideFunctions.c */; };
 		84D905161C25C20E00ABA2A6 /* builtInCommands.c in Sources */ = {isa = PBXBuildFile; fileRef = 84D905141C25C20E00ABA2A6 /* builtInCommands.c */; };
+		84F68A811C2600630094C036 /* RecognizeJobs.c in Sources */ = {isa = PBXBuildFile; fileRef = 84F68A7F1C2600630094C036 /* RecognizeJobs.c */; };
+		84F68A841C2602150094C036 /* SignalsHandlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 84F68A821C2602150094C036 /* SignalsHandlers.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +37,10 @@
 		84D905121C24C98F00ABA2A6 /* SideFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideFunctions.h; sourceTree = "<group>"; };
 		84D905141C25C20E00ABA2A6 /* builtInCommands.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = builtInCommands.c; sourceTree = "<group>"; };
 		84D905151C25C20E00ABA2A6 /* builtInCommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = builtInCommands.h; sourceTree = "<group>"; };
+		84F68A7F1C2600630094C036 /* RecognizeJobs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = RecognizeJobs.c; sourceTree = "<group>"; };
+		84F68A801C2600630094C036 /* RecognizeJobs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecognizeJobs.h; sourceTree = "<group>"; };
+		84F68A821C2602150094C036 /* SignalsHandlers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SignalsHandlers.c; sourceTree = "<group>"; };
+		84F68A831C2602150094C036 /* SignalsHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalsHandlers.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +79,10 @@
 				84D9050F1C24BB2B00ABA2A6 /* CommandReading.h */,
 				84D905111C24C98F00ABA2A6 /* SideFunctions.c */,
 				84D905121C24C98F00ABA2A6 /* SideFunctions.h */,
+				84F68A7F1C2600630094C036 /* RecognizeJobs.c */,
+				84F68A801C2600630094C036 /* RecognizeJobs.h */,
+				84F68A821C2602150094C036 /* SignalsHandlers.c */,
+				84F68A831C2602150094C036 /* SignalsHandlers.h */,
 				84D905141C25C20E00ABA2A6 /* builtInCommands.c */,
 				84D905151C25C20E00ABA2A6 /* builtInCommands.h */,
 			);
@@ -137,8 +147,10 @@
 			files = (
 				84D905101C24BB2B00ABA2A6 /* CommandReading.c in Sources */,
 				84D905061C24A48600ABA2A6 /* main.c in Sources */,
+				84F68A841C2602150094C036 /* SignalsHandlers.c in Sources */,
 				84D905131C24C98F00ABA2A6 /* SideFunctions.c in Sources */,
 				84D905161C25C20E00ABA2A6 /* builtInCommands.c in Sources */,
+				84F68A811C2600630094C036 /* RecognizeJobs.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +269,7 @@
 				84D9050B1C24A48600ABA2A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
